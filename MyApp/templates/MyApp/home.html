@@ -1,0 +1,292 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>失物招领平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #f6f6f6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .w {
+            width: 1200px;
+            margin: auto;
+        }
+
+        /* 顶部栏 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            margin-left: -600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f6f6f6;
+            height: 100px;
+            color: white;
+            padding: 1rem 2rem 1rem 0;
+        }
+
+        .logo {
+            position: absolute;
+            left: 0;
+            float: left;
+            height: 100px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+        }
+        
+
+        .user-box {
+            position: absolute;
+            right: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .login_text {
+            color: #f15a25;
+        }
+
+        /* 搜索框区域 */
+        .search-area {
+            position: absolute;
+            left: 200px;
+            background-color: #f6f6f6;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .search-area select,
+        .search-area input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ee612c; 
+            border-right: 0px;
+            height: 42px;
+            font-size: 14px;
+            color:rgb(1, 1, 8);
+        }
+
+        .search-area .search_img {
+            height: 42px;
+            width: 42px;
+            border: 0;
+        }
+
+        .search_img img {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 帖子展示区 */
+        .posts {
+            margin-top: 100px;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .post-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+/* 
+        .post-title {
+            margin: 0.5rem 1rem 0.5rem 1rem;
+
+            font-weight: bold;
+        } */
+
+        .post-snippet {
+            margin: 0.5rem 1rem 0.5rem 1rem;
+            font-size: 14px;
+            height: 50px;
+        }
+
+        .exit {
+            color: #f15a25;
+            font-size: 12px;
+        }
+
+        .userName {
+            color: black;
+            font-weight: 700;
+        }
+
+        .issue {
+            position: fixed;
+            width: 200px;
+            height: 50px;
+            background-color: #f15a25;
+            bottom: 30px;
+            left: 50%;
+            margin-left: -100px;
+            text-align: center;
+            border-radius: 25px;
+        }
+
+        .issue a {
+            display: block;
+            line-height: 50px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 24px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="issue">
+        <a href="{% url 'MyApp:post' %}">
+            我要发布
+        </a>
+    </div>
+    
+
+    <!-- 顶部栏 -->
+    <div class="header w">
+        {% load static %}
+        <div class="logo"><img src="{% static 'images/LOGO.jpg' %}" alt="Logo"></div>
+        <!-- 搜索区域 -->
+        <div class="search-area">
+            <label>
+                <select id="ownerSelect">
+                    <option value="all">全部</option>
+                    <option value="mine">我的</option>
+                </select>
+            </label>
+            <label>
+                <select id="categorySelect">
+                    <option value="">物品种类</option>
+                    <option>手机</option>
+                    <option>数码产品</option>
+                    <option>鞋服包饰</option>
+                    <option>钱包</option>
+                    <option>书籍</option>
+                    <option>证件</option>
+                    <option>钥匙</option>
+                    <option>快递</option>
+                    <option>其他</option>
+                </select>
+            </label>
+            <label>
+                <input type="date" id="dateSelect">
+            </label>
+            <label>
+                <select id="zoneSelect">
+                    <option value="">丢失区域</option>
+                    <option>A区 食堂, 宿舍（南区）, 健康与环境工程学院</option>
+                    <option>B区 食堂, 创意设计学院, 外国语学院</option>
+                    <option>C区 湖景食堂, 大数据与互联网学院, 图书馆</option>
+                    <option>D区 城市交通与物流学院, 体育馆, 中德智能制造学院</option>
+                    <option>E区 食堂, 宿舍（北区）, 校医院</option>
+                    <option>F区 鑫福佳, 地铁站</option>
+                    <option>校外 竹韵食堂, 临时运动场, 社康中心</option>
+                </select>
+            </label>
+            <button id="searchBtn" class="search_img"><img src="{% static 'images/search.png' %}" alt="search_img"></button>
+        </div>
+
+        <div class="user-box">
+            {% if request.session.user_id %}
+                <img src="{% if user_avatar %}{{ user_avatar }}{% else %}/static/default-avatar.png{% endif %}" alt="用户头像" onclick="document.getElementById('avatarInput').click()" title="点击更换头像">
+                <form id="avatarForm" action="{% url 'MyApp:change_avatar' %}" method="post" enctype="multipart/form-data" style="display:none;">
+                    {% csrf_token %}
+                    <input type="file" id="avatarInput" name="avatar" accept="image/*" onchange="document.getElementById('avatarForm').submit();">
+                </form>
+                <span class="userName">{{ request.session.user_name }}</span>
+                <a href="{% url 'MyApp:logout' %}" style="margin-left:1rem;" class="exit">退出登录</a>
+            {% else %}
+                <a href="{% url 'MyApp:login' %}" class="login_text">登录/注册</a>
+            {% endif %}
+        </div>
+    </div>
+
+ 
+
+    <!-- 内容展示 -->
+    <div class="posts w" id="postsContainer">
+        {% for post in posts %}
+            <div class="post-card" onclick="window.location.href='{% url 'MyApp:detail' post.id %}'">
+                <span style="position:absolute;left:8px;top:8px;font-size:12px;padding:2px 8px;border-radius:8px;
+                    background-color: {% if post.LostOrFound == '失物招领' %}#4caf50{% else %}#2196f3{% endif %};
+                    color:#fff;z-index:2;">
+                    {{ post.LostOrFound }}
+                </span>
+                {% if post.Img %}
+                    <img src="{{ post.Img.url }}" alt="物品图片">
+                {% else %}
+                    <div style="width:100%;height:160px;display:flex;align-items:center;justify-content:center;
+                        background:#f6f6f6;color:#888;border-radius:8px;">
+                        {{ post.description|truncatechars:20 }}
+                    </div>
+                {% endif %}
+                <div class="post-snippet">{{ post.title|truncatechars:20 }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- <div class="load-more">下拉以加载更多内容</div> -->
+
+
+<!-- 取消注释 JS -->
+<script>
+    document.getElementById("searchBtn").onclick = function () {
+        const category = document.getElementById("categorySelect").value;
+        const date = document.getElementById("dateSelect").value;
+        const zone = document.getElementById("zoneSelect").value;
+        const owner = document.getElementById("ownerSelect").value;
+        let params = [];
+        if (category) params.push("category=" + encodeURIComponent(category));
+        if (date) params.push("date=" + encodeURIComponent(date));
+        if (zone) params.push("zone=" + encodeURIComponent(zone));
+        if (owner) params.push("owner=" + encodeURIComponent(owner));
+        let url = "?" + params.join("&");
+        window.location.href = url;
+};
+</script>
