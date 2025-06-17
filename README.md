@@ -1,6 +1,6 @@
 # 数据库课设
 失物招领系统  
-使用前 pip install django mysqlclient pillowt  
+使用前 pip install django mysqlclient pillow
 
 运行./run.ps1启动服务  
 
