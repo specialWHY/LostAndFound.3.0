@@ -9,7 +9,9 @@ class User(models.Model):
     email = models.EmailField(max_length=100, unique=True) # 用户邮箱
     password = models.CharField(max_length=100) # 用户密码
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, default='avatars/default_avatar.jpg') # 上传的头像图片
-
+    class Meta:
+        verbose_name = "用户"
+        verbose_name_plural = "用户列表"
     def __str__(self):
         return self.name
 
@@ -23,7 +25,9 @@ class Post(models.Model):
     ItemType = models.CharField(max_length=50) # 物品类型
     Location = models.CharField(max_length=500) # 物品位置
     State = models.CharField(max_length=20, default='未完成') # 物品状态
-
+    class Meta:
+        verbose_name = "帖子"
+        verbose_name_plural = "帖子列表"
     def __str__(self):
         return self.title
 
@@ -32,6 +36,8 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # 评论的用户
     content = models.TextField() # 评论内容
     created_at = models.DateTimeField(auto_now_add=True) # 评论时间
-
+    class Meta:
+        verbose_name = "评论"
+        verbose_name_plural = "评论列表"
     def __str__(self):
         return f"{self.user.name} - {self.post.title}"

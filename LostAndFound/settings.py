@@ -32,6 +32,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+   
+    # 后台ui界面
+    'simpleui', 
+    # 必要的 Django 内置 app…
+    'tailwind',    # 用于集成 Tailwind CSS
+    'theme',       # 主体样式 app（下面会创建）
+ 
+'django_browser_reload',  # 用于浏览器自动刷新
+
     'MyApp.apps.MyAppConfig',  # 确保你的应用名正确
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,6 +50,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# Tailwind CSS 的应用名称
+TAILWIND_APP_NAME = 'theme'
+
+#tailwind 依赖
+NPM_BIN_PATH = "D:\\Program Files\\node.js\\npm.cmd"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,7 +64,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+ "django_browser_reload.middleware.BrowserReloadMiddleware"# 用于浏览器自动刷新
+  # ...
 ]
+
 
 ROOT_URLCONF = 'LostAndFound.urls'
 
@@ -79,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'lostandfound', # 数据库名称
         'USER': 'root',  # 根据你的配置修改
-        'PASSWORD': '1',  # 根据你的配置修改
+        'PASSWORD': 'root',  # 根据你的配置修改
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -108,20 +126,36 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
-
+USE_L10N = True 
 USE_TZ = True
+
+
+# 隐藏右侧SimpleUI广告链接和使用分析
+SIMPLEUI_HOME_INFO = False 
+SIMPLEUI_ANALYSIS = False 
+
+# 修改左侧菜单首页设置
+SIMPLEUI_HOME_PAGE = 'http://127.0.0.1:8000/MyApp'  # 指向页面
+SIMPLEUI_HOME_TITLE = 'LostAndFound' # 首页标题
+#SIMPLEUI_HOME_ICON = 'fa fa-code' # 首页图标
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 关键配置
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+import os
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'theme', 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -130,3 +164,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TAILWIND_CSS_PATH = 'theme\static_src\src\styles.css'# 配置tailwindcss路径

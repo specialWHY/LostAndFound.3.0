@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('MyApp/', include('MyApp.urls')),
+    path("__reload__/", include("django_browser_reload.urls"))# 用于浏览器自动刷新
 ]
 
 if settings.DEBUG:
