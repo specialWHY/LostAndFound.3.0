@@ -13,12 +13,12 @@
 
 theme是tailwind（css样式库的 django应用，暂时没有使用）
 
-## reload
+### reload
 
 setting.py里面有加了reload 但是要下库，不使用可以注释
 
-增加依赖：
-pip install django-simpleui（后台ui）
-
-## tailwind.config
+### tailwind.config
 不用管
+
+### 增加依赖：
+pip install django-simpleui（后台ui）
