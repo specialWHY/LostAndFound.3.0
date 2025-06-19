@@ -19,3 +19,6 @@ setting.py里面有加了reload 但是要下库，不使用可以注释
 
 增加依赖：
 pip install django-simpleui（后台ui）
+
+## tailwind.config
+不用管
